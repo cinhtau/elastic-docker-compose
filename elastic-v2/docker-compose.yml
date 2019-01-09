@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+  es01:
+    build:
+      context: elasticsearch
+      args:
+        VERSION: "${ELASTIC_VERSION}"
+    image: my-elasticsearch:${ELASTIC_VERSION}
+    container_name: elasticsearch
+    environment:
+      - cluster.name=test
+      - bootstrap.memory_lock=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - "data:/usr/share/elasticsearch/data"
+    ports:
+      - 9200:9200
+    networks:
+      - esnet
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:9200"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  kibana:
+    build:
+      context: kibana
+      args:
+        VERSION: "${KIBANA_VERSION}"
+    image: my-kibana:${KIBANA_VERSION}
+    container_name: kibana
+    hostname: kibana
+    ports: ['5601:5601']
+    networks: ['esnet']
+    depends_on: ['es01']
+    restart: on-failure
+    environment:
+      - ELASTICSEARCH_URL=http://es01:9200
+    healthcheck:
+      test: ["CMD", "curl", "-s", "-f", "http://localhost:5601"]
+      retries: 6
+
+volumes:
+  data:
+
+networks:
+  esnet:
