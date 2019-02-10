@@ -2,7 +2,7 @@ version: '3'
 
 services:
   kibana:
-    image: docker.elastic.co/kibana/kibana:6.5.4
+    image: docker.elastic.co/kibana/kibana:6.6.0
     hostname: kibana
     ports: ['5601:5601']
     environment:
