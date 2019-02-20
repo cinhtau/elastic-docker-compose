@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION}
+    container_name: elasticsearch
+    environment:
+      - cluster.name=test
+      - bootstrap.memory_lock=true
+      - node.name=stretch_armstrong
+      - xpack.license.self_generated.type=trial
+      - xpack.security.enabled=${SECURITY_ENABLED}
+      - xpack.monitoring.enabled=${MONITORING_ENABLED}
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - "es-beta:/usr/share/elasticsearch/data"
+    ports:
+      - 9200:9200
+    networks:
+      - esnet
+  ki01:
+    image: docker.elastic.co/kibana/kibana:${ELASTIC_VERSION}
+    container_name: kibana
+    hostname: kibana
+    ports: ['5601:5601']
+    networks: ['esnet']
+    depends_on: ['es01']
+    #restart: on-failure
+    environment:
+      - XPACK_MONITORING_ENABLED=${MONITORING_ENABLED}
+      - ELASTICSEARCH_URL=http://es01:9200
+
+volumes:
+  es-beta:
+
+networks:
+  esnet:
