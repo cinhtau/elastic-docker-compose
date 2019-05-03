@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  es01:
+  esalt:
     build:
       context: elasticsearch
       args:
@@ -36,10 +36,10 @@ services:
     hostname: kibana
     ports: ['5601:5601']
     networks: ['esnet']
-    depends_on: ['es01']
+    depends_on: ['esalt']
     restart: on-failure
     environment:
-      - ELASTICSEARCH_URL=http://es01:9200
+      - ELASTICSEARCH_URL=http://esalt:9200
     healthcheck:
       test: ["CMD", "curl", "-s", "-f", "http://localhost:5601"]
       retries: 6
