@@ -8,6 +8,7 @@ services:
       - cluster.name=test
       - bootstrap.memory_lock=true
       - node.name=stretch_armstrong
+      - discovery.type=single-node
       - xpack.license.self_generated.type=trial
       - xpack.security.enabled=${SECURITY_ENABLED}
       - xpack.monitoring.enabled=${MONITORING_ENABLED}
@@ -31,7 +32,7 @@ services:
     #restart: on-failure
     environment:
       - XPACK_MONITORING_ENABLED=${MONITORING_ENABLED}
-      - ELASTICSEARCH_URL=http://es01:9200
+      - ELASTICSEARCH_HOSTS=http://es01:9200
 
 volumes:
   es-data:
