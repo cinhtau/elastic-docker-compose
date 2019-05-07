@@ -1,25 +1,29 @@
-version: '3.7'
+version: '3.3'
 
 services:
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION}
     container_name: elasticsearch
     environment:
-      - cluster.name=test
+      - cluster.name=hackathon
       - bootstrap.memory_lock=true
       - node.name=stretch_armstrong
+      - node.ml=false
+      - xpack.ml.enabled=false
       - discovery.type=single-node
       - xpack.license.self_generated.type=trial
       - xpack.security.enabled=${SECURITY_ENABLED}
       - xpack.monitoring.enabled=${MONITORING_ENABLED}
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
-      - "es-data:/usr/share/elasticsearch/data"
+      - "/home/tan/hackathon/elasticsearch:/usr/share/elasticsearch/data"
     ports:
       - 9200:9200
+      - 9300:9300
     networks:
       - esnet
   ki01:
@@ -33,9 +37,6 @@ services:
     environment:
       - XPACK_MONITORING_ENABLED=${MONITORING_ENABLED}
       - ELASTICSEARCH_HOSTS=http://es01:9200
-
-volumes:
-  es-data:
 
 networks:
   esnet:
