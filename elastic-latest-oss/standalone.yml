@@ -1,11 +1,11 @@
 version: '3.7'
 
 services:
-  es01:
+  es-oss-01:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:${ELASTIC_VERSION}
-    container_name: elasticsearch
+    container_name: elasticsearch-oss
     environment:
-      - cluster.name=test
+      - cluster.name=my_oss
       - bootstrap.memory_lock=true
       - node.name=stretch_armstrong
       - discovery.type=single-node
@@ -14,6 +14,6 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - "/home/data/elasticsearch:/usr/share/elasticsearch/data"
+      - "/${HOME_DIR}/data/elasticsearch:/usr/share/elasticsearch/data"
     ports:
       - 9200:9200
