@@ -3,7 +3,7 @@ version: '3.7'
 services:
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION}
-    container_name: elasticsearch
+    container_name: elasticsearch-latest
     environment:
       - cluster.name=hackathon
       - bootstrap.memory_lock=true
@@ -13,12 +13,6 @@ services:
       - discovery.type=single-node
       - xpack.license.self_generated.type=trial
       - xpack.security.enabled=${SECURITY_ENABLED}
-      - xpack.security.http.ssl.enabled=${SECURITY_ENABLED}
-      - xpack.security.http.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
-      - xpack.security.transport.ssl.enabled=${SECURITY_ENABLED}
-      - xpack.security.transport.ssl.verification_mode=certificate
-      - xpack.security.http.ssl.certificate=$CERTS_DIR/es01/es01.crt
-      - xpack.security.http.ssl.key=$CERTS_DIR/es01/es01.key
       - xpack.monitoring.enabled=${MONITORING_ENABLED}
       - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
     ulimits:
@@ -26,8 +20,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - "/home/tan/hackathon/elasticsearch:/usr/share/elasticsearch/data"
-      - './certs:$CERTS_DIR'
+      - "/home/data/elasticsearch:/usr/share/elasticsearch/data"
     ports:
       - 9200:9200
     networks:
@@ -35,7 +28,7 @@ services:
     restart: always
   ki01:
     image: docker.elastic.co/kibana/kibana:${ELASTIC_VERSION}
-    container_name: kibana
+    container_name: kibana-latest
     hostname: kibana
     ports: ['5601:5601']
     networks: ['esnet']
