@@ -3,7 +3,7 @@ version: '2.2'
 services:
   create_certs:
     container_name: create_certs
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.1
     command: >
       bash -c '
         if [[ ! -d config/certificates/certs ]]; then
@@ -18,4 +18,3 @@ services:
     user: ${UID:-1000}
     working_dir: /usr/share/elasticsearch
     volumes: ['.:/usr/share/elasticsearch/config/certificates']
-
