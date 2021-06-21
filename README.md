@@ -4,6 +4,8 @@ Docker Compose for getting started with Elasticsearch and Kibana.
 
 [License](LICENSE)
 
+Check respective versions in [Past Releases](https://www.elastic.co/downloads/past-releases)
+
 ## Elasticsearch Version 2
 
 In the folder `elastic-v2` you will find the setup for Elasticsearch 2.4.6 and Kibana 4.6.6.
