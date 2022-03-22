@@ -8,10 +8,12 @@ services:
       - cluster.name=hackathon
       - bootstrap.memory_lock=true
       - node.name=stretch_armstrong
+      - node.ml=false
+      - xpack.ml.enabled=false
       - discovery.type=single-node
       - xpack.license.self_generated.type=trial
       - xpack.security.enabled=${SECURITY_ENABLED}
-      - xpack.monitoring.templates.enabled=${MONITORING_ENABLED}
+      - xpack.monitoring.enabled=${MONITORING_ENABLED}
       - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
     ulimits:
       memlock:

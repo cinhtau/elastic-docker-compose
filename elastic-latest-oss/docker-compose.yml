@@ -9,12 +9,14 @@ services:
       - bootstrap.memory_lock=true
       - node.name=stretch_armstrong
       - discovery.type=single-node
+      # - path.repo=/usr/share/backup
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
-      - data-volume:/usr/share/elasticsearch/data"
+      - data-volume-latest:/usr/share/elasticsearch/data"
+      # - C:\local\test\backup\test:/usr/share/backup
     ports:
       - 9200:9200
     networks:
@@ -31,7 +33,7 @@ services:
       - ELASTICSEARCH_HOSTS=http://es-oss-01:9200
 
 volumes:
-  data-volume:
+  data-volume-latest:
 
 networks:
   esnet:
